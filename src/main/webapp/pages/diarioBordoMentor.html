@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Bordo - Rede de Mentoria para Eventos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="bi bi-calendar-event-fill"></i>
+            <br>
+            Mentoria
+        </div>
+        <a href="dashboardMentor.html" title="Dashboard">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="solicitacoesRecebidas.html" title="Solicitações Recebidas">
+            <i class="bi bi-inbox-fill"></i> Solicitações Recebidas
+        </a>
+        <a href="mentoriasAtivas.html" title="Mentorias Ativas">
+            <i class="bi bi-people-fill"></i> Mentorias Ativas
+        </a>
+        <a href="diarioBordoMentor.html" title="Diário de Bordo" class="active">
+            <i class="bi bi-journal-text"></i> Diário de Bordo
+        </a>
+        <a href="agendaEncontrosMentor.html" title="Agenda de Encontros">
+            <i class="bi bi-calendar-check"></i> Agenda de Encontros
+        </a>
+        <a href="feedbacksRecebidos.html" title="Feedbacks Recebidos">
+            <i class="bi bi-star-fill"></i> Feedbacks Recebidos
+        </a>
+        <a href="meuPerfilMentor.html" title="Meu Perfil">
+            <i class="bi bi-person-circle"></i> Meu Perfil
+        </a>
+        <a href="login.html" title="Sair">
+            <i class="bi bi-box-arrow-left"></i> Sair
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <div>
+                <h2>Diário de Bordo</h2>
+                <p class="text-muted">Registre a evolução de cada mentoria ao longo dos encontros.</p>
+            </div>
+            <div class="user">
+                <i class="bi bi-person-circle"></i>
+                <span id="nomeUsuario">Mentor(a)</span>
+            </div>
+        </div>
+
+        <!-- SELECIONAR MENTORIA -->
+        <div class="box-select">
+            <label class="form-label fw-semibold" for="selectMentoria">Selecione a Mentoria</label>
+            <select class="form-select" id="selectMentoria">
+                <option value="">Selecione uma mentoria...</option>
+                <!-- Opções dinâmicas -->
+            </select>
+        </div>
+
+        <!-- NOVO REGISTRO -->
+        <div class="box-form">
+            <h5 class="mb-3">
+                <i class="bi bi-journal-plus text-success"></i> Novo Registro
+            </h5>
+            <form id="formNovoRegistro">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold" for="encontroRelacionado">Encontro relacionado</label>
+                        <select class="form-select" id="encontroRelacionado" required>
+                            <option value="">Selecione o encontro...</option>
+                            <option value="livre">Registro livre (sem encontro)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold" for="dataRegistro">Data do registro</label>
+                        <input type="date" class="form-control" id="dataRegistro" style="border-radius:12px;height:48px;" required>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold" for="temasAbordados">Temas Abordados</label>
+                        <textarea class="form-control" id="temasAbordados" placeholder="Descreva os temas discutidos no encontro..." required></textarea>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold" for="evolucaoObservada">Evolução Observada</label>
+                        <textarea class="form-control" id="evolucaoObservada" placeholder="Como o mentorado evoluiu desde o último encontro?" required></textarea>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-semibold" for="proximosPassos">Próximos Passos</label>
+                        <textarea class="form-control" id="proximosPassos" placeholder="O que deve ser trabalhado no próximo encontro?" required></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save2"></i> Salvar Registro
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <h5 class="mb-3">Histórico de Registros</h5>
+        <div class="timeline" id="historicoRegistros">
+            <!-- Entradas do histórico injetadas via JS -->
+        </div>
+    </div>
+
+</body>
+
+</html>

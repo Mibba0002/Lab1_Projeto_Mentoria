@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Encontros - Rede de Mentoria para Eventos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/agendaEncontrosMentor.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="bi bi-calendar-event-fill"></i>
+            <br>
+            Mentoria
+        </div>
+        <a href="dashboardMentor.html" title="Dashboard">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="solicitacoesRecebidas.html" title="Solicitações Recebidas">
+            <i class="bi bi-inbox-fill"></i> Solicitações Recebidas
+        </a>
+        <a href="mentoriasAtivas.html" title="Mentorias Ativas">
+            <i class="bi bi-people-fill"></i> Mentorias Ativas
+        </a>
+        <a href="diarioBordoMentor.html" title="Diário de Bordo">
+            <i class="bi bi-journal-text"></i> Diário de Bordo
+        </a>
+        <a href="agendaEncontrosMentor.html" title="Agenda de Encontros" class="active">
+            <i class="bi bi-calendar-check"></i> Agenda de Encontros
+        </a>
+        <a href="feedbacksRecebidos.html" title="Feedbacks Recebidos">
+            <i class="bi bi-star-fill"></i> Feedbacks Recebidos
+        </a>
+        <a href="meuPerfilMentor.html" title="Meu Perfil">
+            <i class="bi bi-person-circle"></i> Meu Perfil
+        </a>
+        <a href="login.html" title="Sair">
+            <i class="bi bi-box-arrow-left"></i> Sair
+        </a>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="content">
+        <div class="header">
+            <div>
+                <h2>Agenda de Encontros</h2>
+                <p class="text-muted">
+                    Visualize e organize seus encontros de mentoria.
+                </p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="user">
+                    <i class="bi bi-person-circle"></i>
+                    <span id="nomeUsuario">Mentor(a)</span>
+                </div>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNovoEncontro">
+                    <i class="bi bi-calendar-plus"></i> Novo Encontro
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- CALENDÁRIO -->
+            <div class="col-lg-7">
+                <div class="box-calendario">
+                    <div class="calendario-nav">
+                        <button type="button" id="btnMesAnterior">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <h5 id="mesAnoAtual"></h5>
+                        <button type="button" id="btnMesProximo">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid-dias" id="gridDias">
+                        <!-- Cabeçalho dos Dias da Semana -->
+                        <div class="dia-semana">Dom</div>
+                        <div class="dia-semana">Seg</div>
+                        <div class="dia-semana">Ter</div>
+                        <div class="dia-semana">Qua</div>
+                        <div class="dia-semana">Qui</div>
+                        <div class="dia-semana">Sex</div>
+                        <div class="dia-semana">Sáb</div>
+                        <!-- Dias renderizados via JS -->
+                    </div>
+
+                    <div class="legenda-status">
+                        <div class="item-legenda">
+                            <span class="flag-status flag-realizado"></span>
+                            <span>Encontro realizado</span>
+                        </div>
+                        <div class="item-legenda">
+                            <span class="flag-status flag-agendado"></span>
+                            <span>Encontro marcado</span>
+                        </div>
+                        <div class="item-legenda">
+                            <span class="flag-status flag-nao-realizado"></span>
+                            <span>Encontro não realizado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRÓXIMOS ENCONTROS -->
+            <div class="col-lg-5">
+                <div class="box">
+                    <h5 class="mb-3">Próximos Encontros</h5>
+                    <div class="row g-3 proximos-encontros-grid" id="listaProximosEncontros">
+                        <!-- Cards de encontros injetados dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL NOVO ENCONTRO -->
+    <div class="modal fade" id="modalNovoEncontro" tabindex="-1" aria-labelledby="tituloModalNovoEncontro" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success" id="tituloModalNovoEncontro">
+                        <i class="bi bi-calendar-plus"></i> Agendar Novo Encontro
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoEncontro">
+                        <div class="mb-3">
+                            <label for="mentoradoEncontro" class="form-label fw-semibold">Mentorado</label>
+                            <select class="form-select" id="mentoradoEncontro" required>
+                                <option value="">Selecione o mentorado</option>
+                                <!-- Opções carregadas dinamicamente -->
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dataEncontro" class="form-label fw-semibold">Data</label>
+                                <input type="date" class="form-control" id="dataEncontro" required>
+                                <div class="form-text">Escolha uma data posterior à data atual.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="horarioEncontro" class="form-label fw-semibold">Horário</label>
+                                <input type="time" class="form-control" id="horarioEncontro" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipoEncontro" class="form-label fw-semibold">Tipo de Encontro</label>
+                            <select class="form-select" id="tipoEncontro" required>
+                                <option value="online">Online</option>
+                                <option value="presencial">Presencial</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="campoLinkEncontro">
+                            <label for="linkEncontro" class="form-label fw-semibold">Link da Reunião</label>
+                            <input type="url" class="form-control" id="linkEncontro" placeholder="https://meet.google.com/..." required>
+                        </div>
+
+                        <div class="mb-3 d-none" id="campoLocalEncontro">
+                            <label for="localEncontro" class="form-label fw-semibold">Local do Encontro</label>
+                            <input type="text" class="form-control" id="localEncontro" placeholder="Informe o endereço ou local do encontro">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descricaoEncontro" class="form-label fw-semibold">Descrição</label>
+                            <textarea class="form-control campo-descricao" id="descricaoEncontro" placeholder="Pauta do encontro..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" form="formNovoEncontro">
+                        <i class="bi bi-check-lg"></i> Confirmar Encontro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const formulario = document.getElementById("formNovoEncontro");
+            const modalNovoEncontro = document.getElementById("modalNovoEncontro");
+            const dataEncontro = document.getElementById("dataEncontro");
+            const horarioEncontro = document.getElementById("horarioEncontro");
+            const tipoEncontro = document.getElementById("tipoEncontro");
+            const campoLinkEncontro = document.getElementById("campoLinkEncontro");
+            const campoLocalEncontro = document.getElementById("campoLocalEncontro");
+            const linkEncontro = document.getElementById("linkEncontro");
+            const localEncontro = document.getElementById("localEncontro");
+
+            function formatarDataISO(data) {
+                const ano = data.getFullYear();
+                const mes = String(data.getMonth() + 1).padStart(2, "0");
+                const dia = String(data.getDate()).padStart(2, "0");
+                return `${ano}-${mes}-${dia}`;
+            }
+
+            function configurarDataMinima() {
+                const hoje = new Date();
+                dataEncontro.min = formatarDataISO(hoje);
+            }
+
+            function validarDataEHorario() {
+                dataEncontro.setCustomValidity("");
+                horarioEncontro.setCustomValidity("");
+
+                if (!dataEncontro.value || !horarioEncontro.value) return false;
+
+                const dataHoraSelecionada = new Date(`${dataEncontro.value}T${horarioEncontro.value}`);
+                if (dataHoraSelecionada <= new Date()) {
+                    horarioEncontro.setCustomValidity("Selecione uma data e um horário posteriores ao momento atual.");
+                    return false;
+                }
+                return true;
+            }
+
+            function atualizarCamposTipo() {
+                const encontroPresencial = tipoEncontro.value === "presencial";
+                campoLinkEncontro.classList.toggle("d-none", encontroPresencial);
+                campoLocalEncontro.classList.toggle("d-none", !encontroPresencial);
+                linkEncontro.required = !encontroPresencial;
+                localEncontro.required = encontroPresencial;
+
+                if (encontroPresencial) linkEncontro.value = "";
+                else localEncontro.value = "";
+            }
+
+            configurarDataMinima();
+            atualizarCamposTipo();
+
+            modalNovoEncontro.addEventListener("show.bs.modal", configurarDataMinima);
+            tipoEncontro.addEventListener("change", atualizarCamposTipo);
+            dataEncontro.addEventListener("change", validarDataEHorario);
+            horarioEncontro.addEventListener("change", validarDataEHorario);
+
+            formulario.addEventListener("submit", function (evento) {
+                if (!validarDataEHorario() || !formulario.checkValidity()) {
+                    evento.preventDefault();
+                    formulario.reportValidity();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

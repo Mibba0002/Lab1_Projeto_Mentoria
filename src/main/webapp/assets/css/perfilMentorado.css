@@ -1,0 +1,21 @@
+.avatar-perfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #2E7D32;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-size: 55px;
+}
+
+
+.badge-area {
+    background: #e8f5e9;
+    color: #2E7D32;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+}

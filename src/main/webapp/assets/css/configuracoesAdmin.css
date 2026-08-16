@@ -1,0 +1,60 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.nav-config{
+background:white;
+border-radius:20px;
+padding:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.nav-config .nav-link{
+color:#555;
+border-radius:12px;
+padding:14px 18px;
+font-weight:600;
+margin-bottom:5px;
+}
+
+.nav-config .nav-link.active{
+background:#E8F5E9;
+color:#2E7D32;
+}
+
+.nav-config .nav-link i{
+margin-right:10px;
+}
+
+.item-config{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 0;
+border-bottom:1px solid #E8F5E9;
+}
+
+.item-config:last-child{
+border-bottom:none;
+}
+
+.item-config h6{
+margin-bottom:2px;
+}
+
+.item-config small{
+color:#888;
+}
+
+.tabela-admins{
+width:100%;
+}
+
+.tabela-admins th{
+color:#2E7D32;
+border-bottom:2px solid #E8F5E9;
+padding-bottom:10px;
+}
+
+.tabela-admins td{
+padding:12px 0;
+border-bottom:1px solid #f0f0f0;
+}

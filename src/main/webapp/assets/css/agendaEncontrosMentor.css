@@ -1,0 +1,181 @@
+/* ===== ESTILOS ESPECÍFICOS DESTA PÁGINA ===== */
+
+
+/* ==================================================
+   MODAL
+================================================== */
+
+.modal-header {
+    border-bottom: 1px solid #E8F5E9;
+}
+
+.modal .form-control,
+.modal .form-select {
+    border-radius: 12px;
+    height: 48px;
+}
+
+.modal .form-control:focus,
+.modal .form-select:focus {
+    border-color: #2E7D32;
+    box-shadow: 0 0 8px rgba(46, 125, 50, .2);
+}
+
+.modal textarea.form-control.campo-descricao {
+    height: auto;
+    min-height: 90px;
+    resize: vertical;
+}
+
+
+/* ==================================================
+   PRÓXIMOS ENCONTROS EM DUAS COLUNAS
+================================================== */
+
+.proximos-encontros-grid .card-encontro {
+    height: 100%;
+    margin-bottom: 0;
+    align-items: flex-start;
+}
+
+.proximos-encontros-grid .flex-grow-1 {
+    min-width: 0;
+}
+
+.proximos-encontros-grid h6,
+.proximos-encontros-grid small {
+    overflow-wrap: break-word;
+}
+
+
+/* ==================================================
+   LOCAL DO ENCONTRO PRESENCIAL
+================================================== */
+
+.local-encontro {
+    display: block;
+    margin-top: 8px;
+    color: #666;
+    font-size: 11.5px;
+    line-height: 1.35;
+}
+
+.local-encontro i {
+    color: #2E7D32;
+    margin-right: 3px;
+}
+
+
+/* ==================================================
+   FLAGS DOS ENCONTROS NO CALENDÁRIO
+================================================== */
+
+.dia {
+    position: relative;
+}
+
+.dia.encontro-realizado::after,
+.dia.encontro-agendado::after,
+.dia.encontro-nao-realizado::after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* Verde: encontro realizado */
+
+.dia.encontro-realizado::after {
+    background-color: #2E7D32;
+}
+
+
+/* Amarelo: encontro marcado e ainda não realizado */
+
+.dia.encontro-agendado::after {
+    background-color: #F9A825;
+}
+
+
+/* Vermelho: encontro marcado, mas não aconteceu */
+
+.dia.encontro-nao-realizado::after {
+    background-color: #D32F2F;
+}
+
+
+/* ==================================================
+   LEGENDA DOS STATUS
+================================================== */
+
+.legenda-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #eeeeee;
+}
+
+.item-legenda {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #555;
+    font-size: 12px;
+}
+
+.flag-status {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.flag-realizado {
+    background-color: #2E7D32;
+}
+
+.flag-agendado {
+    background-color: #F9A825;
+}
+
+.flag-nao-realizado {
+    background-color: #D32F2F;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE
+================================================== */
+
+.content {
+    padding-bottom: 0;
+    box-sizing: border-box;
+}
+
+.box-calendario {
+    margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+
+    .proximos-encontros-grid .card-encontro {
+        width: 100%;
+    }
+
+    .legenda-status {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+}

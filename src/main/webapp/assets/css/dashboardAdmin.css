@@ -1,0 +1,25 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.acao-rapida{
+background:white;
+border-radius:16px;
+padding:20px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+transition:.3s;
+text-decoration:none;
+display:block;
+color:#333;
+}
+
+.acao-rapida:hover{
+transform:translateY(-5px);
+color:#2E7D32;
+}
+
+.acao-rapida i{
+font-size:32px;
+color:#2E7D32;
+margin-bottom:10px;
+display:block;
+}

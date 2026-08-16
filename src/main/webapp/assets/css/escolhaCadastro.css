@@ -1,0 +1,113 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+body.pagina-auth {
+
+background:linear-gradient(135deg,#1B5E20,#43A047);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px 15px;
+
+}
+
+.container-card{
+
+background:white;
+width:900px;
+max-width:100%;
+border-radius:25px;
+padding:50px;
+box-shadow:0 20px 40px rgba(0,0,0,.2);
+
+}
+
+.titulo{
+
+text-align:center;
+margin-bottom:45px;
+
+}
+
+.titulo h2{
+
+color:#2E7D32;
+font-weight:bold;
+margin-bottom:10px;
+
+}
+
+.titulo p{
+
+color:#666;
+
+}
+
+.card-perfil{
+
+border:none;
+border-radius:20px;
+padding:35px;
+text-align:center;
+transition:.4s;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+cursor:pointer;
+height:100%;
+
+}
+
+.card-perfil:hover{
+
+background:#2E7D32;
+transform:translateY(-8px);
+color:white;
+
+}
+
+.card-perfil:hover h3,
+.card-perfil:hover p,
+.card-perfil:hover i{
+
+color:white;
+
+}
+
+.card-perfil i{
+
+font-size:65px;
+color:#2E7D32;
+
+}
+
+.card-perfil h3{
+
+margin-top:20px;
+font-weight:bold;
+
+}
+
+.card-perfil p{
+
+color:#666;
+margin-top:10px;
+
+}
+
+.btn-voltar{
+
+padding:8px 22px;
+font-size:15px;
+border-radius:30px;
+font-weight:600;
+
+}
+
+
+@media(max-width:768px){
+.container-card{
+padding:30px 20px;
+}
+.col-md-6:first-child .card-perfil{
+margin-bottom:25px;
+}
+}

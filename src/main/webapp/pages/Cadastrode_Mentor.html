@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Mentor</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/cadastroMentor.css">
+
+    <style>
+        .select-tags-wrapper {
+            position: relative;
+        }
+
+        .select-tags-display {
+            min-height: 38px;
+            padding: 4px 36px 4px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .select-tags-display:focus-within,
+        .select-tags-display.active {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+            outline: 0;
+        }
+
+        .select-tag-badge {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.775rem;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            line-height: 1.2;
+        }
+
+        .select-tag-badge i {
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .select-tags-placeholder {
+            color: #6c757d;
+            font-size: 0.875rem;
+            user-select: none;
+        }
+
+        .select-tags-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            z-index: 1050;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+            display: none;
+        }
+
+        .select-tags-dropdown.show {
+            display: block;
+        }
+
+        .select-option-item {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s;
+        }
+
+        .select-option-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .select-option-item.selected {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="bi bi-calendar-event-fill"></i>
+            <br>
+            Mentoria
+        </div>
+
+        <a href="dashboardMentor.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="Cadastrode_Mentor.html" class="active"><i class="bi bi-person-workspace"></i> Mentores</a>
+        <a href="cadastroMentorado.html"><i class="bi bi-mortarboard-fill"></i> Mentorados</a>
+        <a href="login.html"><i class="bi bi-box-arrow-left"></i> Sair</a>
+    </aside>
+
+    <main class="content">
+        <section class="formulario">
+            <div class="text-center cabecalho-formulario">
+                <div class="perfil">
+                    <i class="bi bi-person-workspace"></i>
+                </div>
+                <h2 class="text-success">Cadastro de Mentor</h2>
+                <p class="text-muted">Compartilhe sua experiência com novos profissionais.</p>
+                <span class="badge-etapa">Etapa 1 de 1</span>
+            </div>
+
+            <hr>
+
+            <form id="formMentor">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="nomeMentor" class="form-label fw-semibold">Nome Completo</label>
+                        <input type="text" class="form-control" id="nomeMentor" name="nome" placeholder="Digite seu nome" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="emailMentor" class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control" id="emailMentor" name="email" placeholder="Digite seu email" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="telefoneMentor" class="form-label fw-semibold">Telefone</label>
+                        <input type="tel" class="form-control" id="telefoneMentor" name="telefone" placeholder="(00) 00000-0000" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="experienciaMentor" class="form-label fw-semibold">Tempo de Experiência</label>
+                        <input type="number" class="form-control" id="experienciaMentor" name="tempoExperiencia" min="0" placeholder="Anos" required>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="estadoMentor" class="form-label fw-semibold">Estado</label>
+                        <select class="form-select" id="estadoMentor" name="estado" required>
+                            <option value="" selected disabled>UF</option>
+                            <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                            <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                            <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                            <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                            <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                            <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                            <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                            <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                            <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="cidadeMentor" class="form-label fw-semibold">Cidade</label>
+                        <select class="form-select" id="cidadeMentor" name="cidade" required disabled>
+                            <option value="">Selecione o estado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Áreas de Atuação</label>
+                        <div class="select-tags-wrapper" id="componenteAreasAtuacao">
+                            <div class="select-tags-display" tabindex="0">
+                                <span class="select-tags-placeholder">Selecione as especialidades...</span>
+                            </div>
+                            <div class="select-tags-dropdown">
+                                <div class="select-option-item" data-value="Eventos Corporativos">Eventos Corporativos</div>
+                                <div class="select-option-item" data-value="Eventos Sociais">Eventos Sociais</div>
+                                <div class="select-option-item" data-value="Eventos Culturais">Eventos Culturais</div>
+                                <div class="select-option-item" data-value="Eventos Esportivos">Eventos Esportivos</div>
+                                <div class="select-option-item" data-value="Marketing">Marketing</div>
+                                <div class="select-option-item" data-value="Produção">Produção</div>
+                                <div class="select-option-item" data-value="Cerimonial">Cerimonial</div>
+                                <div class="select-option-item" data-value="Logística">Logística</div>
+                            </div>
+                            <div class="hidden-inputs-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Disponibilidade</label>
+                        <div class="select-tags-wrapper" id="componenteDisponibilidade">
+                            <div class="select-tags-display" tabindex="0">
+                                <span class="select-tags-placeholder">Selecione os turnos...</span>
+                            </div>
+                            <div class="select-tags-dropdown">
+                                <div class="select-option-item" data-value="Manhã">Manhã</div>
+                                <div class="select-option-item" data-value="Tarde">Tarde</div>
+                                <div class="select-option-item" data-value="Noite">Noite</div>
+                                <div class="select-option-item" data-value="Fim de Semana">Fim de Semana</div>
+                            </div>
+                            <div class="hidden-inputs-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="formatoMentoria" class="form-label fw-semibold">Formato da Mentoria</label>
+                        <select class="form-select" id="formatoMentoria" name="formato" required>
+                            <option value="" selected disabled>Selecione</option>
+                            <option value="Online">Online</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Híbrida">Híbrida</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="portfolioMentor" class="form-label fw-semibold">LinkedIn / Portfólio</label>
+                        <input type="url" class="form-control" id="portfolioMentor" name="portfolio" placeholder="https://...">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="biografiaMentor" class="form-label fw-semibold">Mini Biografia</label>
+                        <textarea class="form-control" id="biografiaMentor" name="biografia" placeholder="Conte brevemente sua experiência profissional..." rows="3" required></textarea>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+                            <i class="bi bi-check-circle-fill me-1"></i> Cadastrar Mentor
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/cidades.js"></script>
+    <script>
+        function inicializarDropdownTags(wrapperId, inputName) {
+            const wrapper = document.getElementById(wrapperId);
+            const display = wrapper.querySelector('.select-tags-display');
+            const dropdown = wrapper.querySelector('.select-tags-dropdown');
+            const placeholder = wrapper.querySelector('.select-tags-placeholder');
+            const hiddenContainer = wrapper.querySelector('.hidden-inputs-container');
+            const options = wrapper.querySelectorAll('.select-option-item');
+
+            let selecionados = new Set();
+
+            display.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('bi-x')) {
+                    dropdown.classList.toggle('show');
+                    display.classList.toggle('active');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!wrapper.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                    display.classList.remove('active');
+                }
+            });
+
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    const val = opt.dataset.value;
+                    if (selecionados.has(val)) {
+                        selecionados.delete(val);
+                        opt.classList.remove('selected');
+                    } else {
+                        selecionados.add(val);
+                        opt.classList.add('selected');
+                    }
+                    atualizarVisualizacao();
+                });
+            });
+
+            function atualizarVisualizacao() {
+                display.querySelectorAll('.select-tag-badge').forEach(b => b.remove());
+                hiddenContainer.innerHTML = '';
+
+                if (selecionados.size === 0) {
+                    placeholder.style.display = 'inline';
+                } else {
+                    placeholder.style.display = 'none';
+                    selecionados.forEach(val => {
+                        const badge = document.createElement('span');
+                        badge.className = 'select-tag-badge';
+                        badge.innerHTML = `${val} <i class="bi bi-x" data-val="${val}"></i>`;
+                        badge.querySelector('i').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            selecionados.delete(val);
+                            wrapper.querySelector(`.select-option-item[data-value="${val}"]`).classList.remove('selected');
+                            atualizarVisualizacao();
+                        });
+                        display.appendChild(badge);
+
+                        const hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = `${inputName}[]`;
+                        hidden.value = val;
+                        hiddenContainer.appendChild(hidden);
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarDropdownTags('componenteAreasAtuacao', 'areas');
+            inicializarDropdownTags('componenteDisponibilidade', 'disponibilidades');
+        });
+    </script>
+</body>
+
+</html>

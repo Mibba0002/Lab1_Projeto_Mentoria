@@ -1,0 +1,40 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.box-mentor-escolhido{
+background:white;
+border-radius:20px;
+padding:30px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+margin-bottom:25px;
+display:flex;
+align-items:center;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.btn-trocar-mentor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+
+
+
+.badge-etapa{
+background:#E8F5E9;
+color:#2E7D32;
+padding:10px 20px;
+border-radius:20px;
+font-weight:bold;
+}
+
+.formulario{
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}

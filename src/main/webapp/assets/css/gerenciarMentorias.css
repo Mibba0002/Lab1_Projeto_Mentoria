@@ -1,0 +1,21 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.card-resumo{
+background:white;
+border-radius:16px;
+padding:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+text-align:center;
+margin-bottom:25px;
+}
+
+.card-resumo h3{
+color:#2E7D32;
+font-weight:bold;
+margin-bottom:0;
+}
+
+.btn-cancelar{
+background:#FFEBEE;
+color:#C62828;
+}

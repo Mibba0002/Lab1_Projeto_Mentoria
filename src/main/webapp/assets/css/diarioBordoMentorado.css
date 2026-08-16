@@ -1,0 +1,15 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.tag-autor{
+background:#E3F2FD;
+color:#1565C0;
+padding:5px 14px;
+border-radius:20px;
+font-size:12.5px;
+font-weight:600;
+}
+
+.tag-autor.mentorado{
+background:#FFF3E0;
+color:#E65100;
+}

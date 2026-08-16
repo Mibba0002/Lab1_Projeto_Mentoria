@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Feedbacks - Administrador</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/feedbacksAdmin.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+<i class="bi bi-calendar-event-fill"></i>
+<br>
+Mentoria
+</div>
+
+<a href="dashboardAdmin.html" title="Dashboard Geral">
+<i class="bi bi-speedometer2"></i>
+Dashboard Geral
+</a>
+
+<a href="gerenciarMentores.html" title="Gerenciar Mentores">
+<i class="bi bi-person-workspace"></i>
+Gerenciar Mentores
+</a>
+
+<a href="gerenciarMentorados.html" title="Gerenciar Mentorados">
+<i class="bi bi-mortarboard-fill"></i>
+Gerenciar Mentorados
+</a>
+
+<a href="gerenciarMentorias.html" title="Gerenciar Mentorias">
+<i class="bi bi-people-fill"></i>
+Gerenciar Mentorias
+</a>
+
+<a href="relatoriosAdmin.html" title="Relatórios">
+<i class="bi bi-bar-chart-fill"></i>
+Relatórios
+</a>
+
+<a href="feedbacksAdmin.html" title="Feedbacks" class="active">
+<i class="bi bi-star-fill"></i>
+Feedbacks
+</a>
+
+<a href="configuracoesAdmin.html" title="Configurações">
+<i class="bi bi-gear-fill"></i>
+Configurações
+</a>
+
+<a href="login.html" title="Sair">
+<i class="bi bi-box-arrow-left"></i>
+Sair
+</a>
+
+</div>
+
+<div class="content">
+
+<div class="header">
+
+<div>
+<h2>Feedbacks</h2>
+<p class="text-muted">
+Modere os feedbacks enviados por mentores e mentorados na plataforma.
+</p>
+</div>
+
+<div class="user">
+<i class="bi bi-person-circle"></i>
+Carol Paranhos
+<span class="badge-admin">ADMIN</span>
+</div>
+
+</div>
+
+<!-- FILTROS -->
+
+<div class="box-filtro">
+
+<form class="row g-3 align-items-end">
+
+<div class="col-md-4">
+<label class="form-label fw-semibold">Buscar por nome</label>
+<input type="text" class="form-control" placeholder="Mentor ou mentorado...">
+</div>
+
+<div class="col-md-3">
+<label class="form-label fw-semibold">Nota</label>
+<select class="form-select">
+<option selected>Todas as notas</option>
+<option>5 estrelas</option>
+<option>4 estrelas</option>
+<option>3 estrelas</option>
+<option>2 estrelas ou menos</option>
+</select>
+</div>
+
+<div class="col-md-3">
+<label class="form-label fw-semibold">Status</label>
+<select class="form-select">
+<option selected>Todos</option>
+<option>Publicado</option>
+<option>Denunciado</option>
+</select>
+</div>
+
+<div class="col-md-2">
+<button class="btn btn-success w-100">
+<i class="bi bi-search"></i>
+Filtrar
+</button>
+</div>
+
+</form>
+
+</div>
+
+<!-- LISTA -->
+
+<div class="box">
+
+<h5 class="mb-3">Todos os Feedbacks (<span id="totalFeedbacks">0</span>)</h5>
+
+<div id="listaFeedbacks">
+
+<!-- exemplo: um .card-feedback por feedback retornado do backend -->
+<div class="card-feedback mb-0">
+
+<div class="d-flex justify-content-between flex-wrap gap-2 mb-2">
+
+<div class="d-flex align-items-center gap-2">
+<div class="avatar-sm">--</div>
+<div>
+<h6 class="mb-0">Autor do feedback <i class="bi bi-arrow-right small text-muted"></i> Destinatário</h6>
+<span class="badge-area">Área</span>
+</div>
+</div>
+
+<div class="estrelas">
+<i class="bi bi-star-fill"></i>
+<i class="bi bi-star-fill"></i>
+<i class="bi bi-star-fill"></i>
+<i class="bi bi-star-fill"></i>
+<i class="bi bi-star-fill"></i>
+</div>
+
+</div>
+
+<p class="depoimento mb-1">
+Texto do depoimento.
+</p>
+
+<div class="d-flex justify-content-between align-items-center mt-2">
+<small class="text-muted">Publicado em 00/00/0000</small>
+<div>
+<button class="btn-icon btn-remover" title="Remover feedback"><i class="bi bi-trash-fill"></i></button>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PAGINAÇÃO -->
+
+<nav class="mt-3">
+<ul class="pagination justify-content-center">
+<li class="page-item disabled">
+<a class="page-link" href="#">Anterior</a>
+</li>
+<li class="page-item active">
+<a class="page-link" href="#" style="background:#2E7D32;border-color:#2E7D32;">1</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="#" style="color:#2E7D32;">2</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="#" style="color:#2E7D32;">3</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="#" style="color:#2E7D32;">Próxima</a>
+</li>
+</ul>
+</nav>
+
+</div>
+
+</body>
+
+</html>

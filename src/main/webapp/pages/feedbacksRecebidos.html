@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedbacks Recebidos - Rede de Mentoria para Eventos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/feedbacksRecebidos.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="bi bi-calendar-event-fill"></i>
+            <br>
+            Mentoria
+        </div>
+        <a href="dashboardMentor.html" title="Dashboard">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="solicitacoesRecebidas.html" title="Solicitações Recebidas">
+            <i class="bi bi-inbox-fill"></i> Solicitações Recebidas
+        </a>
+        <a href="mentoriasAtivas.html" title="Mentorias Ativas">
+            <i class="bi bi-people-fill"></i> Mentorias Ativas
+        </a>
+        <a href="diarioBordoMentor.html" title="Diário de Bordo">
+            <i class="bi bi-journal-text"></i> Diário de Bordo
+        </a>
+        <a href="agendaEncontrosMentor.html" title="Agenda de Encontros">
+            <i class="bi bi-calendar-check"></i> Agenda de Encontros
+        </a>
+        <a href="feedbacksRecebidos.html" title="Feedbacks Recebidos" class="active">
+            <i class="bi bi-star-fill"></i> Feedbacks Recebidos
+        </a>
+        <a href="meuPerfilMentor.html" title="Meu Perfil">
+            <i class="bi bi-person-circle"></i> Meu Perfil
+        </a>
+        <a href="login.html" title="Sair">
+            <i class="bi bi-box-arrow-left"></i> Sair
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <div>
+                <h2>Feedbacks Recebidos</h2>
+                <p class="text-muted">Veja as avaliações e depoimentos deixados pelos seus mentorados.</p>
+            </div>
+            <div class="user">
+                <i class="bi bi-person-circle"></i>
+                <span id="nomeUsuario">Mentor(a)</span>
+            </div>
+        </div>
+
+        <!-- RESUMO -->
+        <div class="box-resumo">
+            <div class="media-nota">
+                <h1 id="mediaGeralFeedbacks">0.0</h1>
+                <div class="estrelas" id="estrelasMediaGeral">
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <small class="text-muted" id="totalAvaliacoesTexto">0 avaliações</small>
+            </div>
+
+            <div class="grafico-resumo">
+                <div class="chart-wrap">
+                    <canvas id="graficoNotas"></canvas>
+                </div>
+            </div>
+
+            <div class="resumo-indicadores">
+                <div class="indicador-resumo">
+                    <h4 class="text-success mb-0" id="totalMentoriasConcluidas">0</h4>
+                    <small class="text-muted">Mentorias concluídas</small>
+                </div>
+                <div class="indicador-resumo">
+                    <h4 class="text-success mb-0" id="taxaRecomendacao">0%</h4>
+                    <small class="text-muted">Taxa de recomendação</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA DE FEEDBACKS -->
+        <div class="box box-lista-feedbacks">
+            <h5 class="mb-3">Todos os Feedbacks</h5>
+            <div class="row g-3" id="listaFeedbacks">
+                <!-- Cards de feedback injetados dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chartNotas = new Chart(document.getElementById("graficoNotas"), {
+            type: "bar",
+            data: {
+                labels: ["5 estrelas", "4 estrelas", "3 estrelas", "2 estrelas", "1 estrela"],
+                datasets: [{
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: "#2E7D32",
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                indexAxis: "y",
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+            }
+        });
+    </script>
+</body>
+
+</html>

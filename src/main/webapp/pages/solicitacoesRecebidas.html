@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitações Recebidas - Rede de Mentoria para Eventos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/solicitacoesRecebidas.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="bi bi-calendar-event-fill"></i>
+            <br>
+            Mentoria
+        </div>
+
+        <a href="dashboardMentor.html" title="Dashboard">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="solicitacoesRecebidas.html" title="Solicitações Recebidas" class="active">
+            <i class="bi bi-inbox-fill"></i> Solicitações Recebidas
+        </a>
+        <a href="mentoriasAtivas.html" title="Mentorias Ativas">
+            <i class="bi bi-people-fill"></i> Mentorias Ativas
+        </a>
+        <a href="diarioBordoMentor.html" title="Diário de Bordo">
+            <i class="bi bi-journal-text"></i> Diário de Bordo
+        </a>
+        <a href="agendaEncontrosMentor.html" title="Agenda de Encontros">
+            <i class="bi bi-calendar-check"></i> Agenda de Encontros
+        </a>
+        <a href="feedbacksRecebidos.html" title="Feedbacks Recebidos">
+            <i class="bi bi-star-fill"></i> Feedbacks Recebidos
+        </a>
+        <a href="meuPerfilMentor.html" title="Meu Perfil">
+            <i class="bi bi-person-circle"></i> Meu Perfil
+        </a>
+        <a href="login.html" title="Sair">
+            <i class="bi bi-box-arrow-left"></i> Sair
+        </a>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="content">
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <div>
+                <h2>Solicitações Recebidas</h2>
+                <p class="text-muted">
+                    Analise os pedidos de mentoria enviados por mentorados.
+                </p>
+            </div>
+
+            <div class="user">
+                <i class="bi bi-person-circle"></i>
+                <span id="nomeMentor">Mentor(a)</span>
+            </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="box-filtro">
+            <form class="row g-3 align-items-end" id="formFiltroSolicitacoes">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold" for="filtroNome">Buscar por nome</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="filtroNome"
+                        name="nome"
+                        placeholder="Digite o nome do mentorado"
+                    >
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold" for="filtroArea">Área de Interesse</label>
+                    <select class="form-select" id="filtroArea" name="area">
+                        <option value="" selected>Todas as áreas</option>
+                        <option value="Eventos Corporativos">Eventos Corporativos</option>
+                        <option value="Eventos Sociais">Eventos Sociais</option>
+                        <option value="Eventos Culturais">Eventos Culturais</option>
+                        <option value="Eventos Esportivos">Eventos Esportivos</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Cerimonial">Cerimonial</option>
+                        <option value="Produção">Produção</option>
+                        <option value="Logística">Logística</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold" for="filtroStatus">Status</label>
+                    <select class="form-select" id="filtroStatus" name="status">
+                        <option value="" selected>Todos os status</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Aceita">Aceita</option>
+                        <option value="Recusada">Recusada</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-search"></i> Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- LISTA DE SOLICITAÇÕES EM DUAS COLUNAS -->
+        <div class="row g-4 lista-solicitacoes" id="gridSolicitacoes">
+            <!-- Cards injetados dinamicamente via JS -->
+        </div>
+
+        <!-- PAGINAÇÃO -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center" id="paginacaoSolicitacoes">
+                <!-- Links de paginação dinâmicos -->
+            </ul>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

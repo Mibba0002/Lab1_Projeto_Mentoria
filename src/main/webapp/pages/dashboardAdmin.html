@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Geral - Administrador</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/dashboardAdmin.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+<i class="bi bi-calendar-event-fill"></i>
+<br>
+Mentoria
+</div>
+
+<a href="dashboardAdmin.html" title="Dashboard Geral" class="active">
+<i class="bi bi-speedometer2"></i>
+Dashboard Geral
+</a>
+
+<a href="gerenciarMentores.html" title="Gerenciar Mentores">
+<i class="bi bi-person-workspace"></i>
+Gerenciar Mentores
+</a>
+
+<a href="gerenciarMentorados.html" title="Gerenciar Mentorados">
+<i class="bi bi-mortarboard-fill"></i>
+Gerenciar Mentorados
+</a>
+
+<a href="gerenciarMentorias.html" title="Gerenciar Mentorias">
+<i class="bi bi-people-fill"></i>
+Gerenciar Mentorias
+</a>
+
+<a href="relatoriosAdmin.html" title="Relatórios">
+<i class="bi bi-bar-chart-fill"></i>
+Relatórios
+</a>
+
+<a href="feedbacksAdmin.html" title="Feedbacks">
+<i class="bi bi-star-fill"></i>
+Feedbacks
+</a>
+
+<a href="configuracoesAdmin.html" title="Configurações">
+<i class="bi bi-gear-fill"></i>
+Configurações
+</a>
+
+<a href="login.html" title="Sair">
+<i class="bi bi-box-arrow-left"></i>
+Sair
+</a>
+
+</div>
+
+<div class="content">
+
+<div class="header">
+
+<div>
+<h2>Dashboard Geral</h2>
+<p class="text-muted">
+Visão completa da Rede de Mentoria para Eventos.
+</p>
+</div>
+
+<div class="user">
+<i class="bi bi-person-circle"></i>
+<span id="nomeUsuarioLogado"><!-- nome vindo da sessão/autenticação --></span>
+<span class="badge-admin">ADMIN</span>
+</div>
+
+</div>
+
+<div class="row">
+
+<!-- TODO: preencher dinamicamente com dados vindos do backend -->
+
+<div class="col-md-3">
+<div class="card-dashboard c1">
+<h6>Mentores</h6>
+<h2 id="totalMentores">0</h2>
+<p>Cadastrados</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-dashboard c2">
+<h6>Mentorados</h6>
+<h2 id="totalMentorados">0</h2>
+<p>Cadastrados</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-dashboard c3">
+<h6>Mentorias</h6>
+<h2 id="totalMentorias">0</h2>
+<p>Em andamento</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-dashboard c4">
+<h6>Finalizadas</h6>
+<h2 id="totalFinalizadas">0</h2>
+<p>Concluídas</p>
+</div>
+</div>
+
+</div>
+
+<!-- AÇÕES RÁPIDAS -->
+
+<div class="row mt-3">
+
+<div class="col-6 col-md-3">
+<a href="gerenciarMentores.html" class="acao-rapida">
+<i class="bi bi-person-plus-fill"></i>
+Ver Mentores
+</a>
+</div>
+
+<div class="col-6 col-md-3">
+<a href="gerenciarMentorados.html" class="acao-rapida">
+<i class="bi bi-mortarboard"></i>
+Ver Mentorados
+</a>
+</div>
+
+<div class="col-6 col-md-3">
+<a href="relatoriosAdmin.html" class="acao-rapida">
+<i class="bi bi-file-earmark-bar-graph"></i>
+Relatórios
+</a>
+</div>
+
+<div class="col-6 col-md-3">
+<a href="feedbacksAdmin.html" class="acao-rapida">
+<i class="bi bi-chat-square-heart"></i>
+Feedbacks
+</a>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-lg-8">
+<div class="box">
+<h5 class="mb-3">Mentorias por mês</h5>
+<div class="chart-wrap">
+<canvas id="grafico1"></canvas>
+</div>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="box">
+<h5 class="mb-3">Áreas Procuradas</h5>
+<div class="chart-wrap">
+<canvas id="grafico2"></canvas>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="box">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h5 class="mb-0">Próximas Mentorias</h5>
+<a href="gerenciarMentorias.html" class="btn btn-outline-success btn-sm">Ver todas</a>
+</div>
+
+<table class="table table-hover align-middle">
+
+<thead>
+<tr>
+<th>Mentor</th>
+<th>Mentorado</th>
+<th>Área</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="tabelaProximasMentorias">
+
+<!-- exemplo: uma linha por mentoria, gerada dinamicamente -->
+<tr>
+<td>
+<div class="d-flex align-items-center gap-2">
+<div class="avatar-sm">--</div>
+Nome do Mentor
+</div>
+</td>
+<td>Nome do Mentorado</td>
+<td>Área</td>
+<td><span class="badge bg-success">Status</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- NOVOS CADASTROS -->
+
+<div class="box">
+
+<h5 class="mb-3">Novos Cadastros Recentes</h5>
+
+<table class="table table-hover align-middle">
+
+<thead>
+<tr>
+<th>Nome</th>
+<th>Perfil</th>
+<th>Área</th>
+<th>Data</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="tabelaNovosCadastros">
+
+<!-- exemplo: uma linha por cadastro, gerada dinamicamente -->
+<tr>
+<td>Nome</td>
+<td><span class="badge bg-info text-dark">Perfil</span></td>
+<td>Área</td>
+<td>00/00/0000</td>
+<td><span class="badge bg-secondary">Status</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+// TODO: substituir labels/data pelos valores retornados do backend
+
+new Chart(document.getElementById('grafico1'),{
+type:'bar',
+data:{
+labels:[],
+datasets:[{
+data:[],
+backgroundColor:'#2E7D32',
+borderRadius:10
+}]
+},
+options:{
+maintainAspectRatio:false,
+plugins:{legend:{display:false}}
+}
+});
+
+new Chart(document.getElementById('grafico2'),{
+type:'doughnut',
+data:{
+labels:[],
+datasets:[{
+data:[],
+backgroundColor:[
+'#2E7D32',
+'#43A047',
+'#66BB6A',
+'#A5D6A7'
+]
+}]
+},
+options:{
+maintainAspectRatio:false
+}
+});
+
+</script>
+
+</body>
+
+</html>

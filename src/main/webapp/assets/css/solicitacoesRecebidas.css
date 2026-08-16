@@ -1,0 +1,148 @@
+/* ===== ESTILOS ESPECÍFICOS DESTA PÁGINA ===== */
+
+
+/* ==================================================
+   CARDS DAS SOLICITAÇÕES
+================================================== */
+
+.card-solicitacao {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+    margin-bottom: 0;
+    height: 100%;
+    transition: .3s;
+}
+
+.card-solicitacao:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+}
+
+
+/* Faz o conteúdo ocupar toda a altura do card */
+
+.conteudo-solicitacao {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+
+/* Mantém a data e os botões na parte inferior */
+
+.rodape-solicitacao {
+    margin-top: auto;
+    padding-top: 14px;
+}
+
+
+/* ==================================================
+   BADGES DE ÁREA E NÍVEL
+================================================== */
+
+.card-solicitacao .badge-area,
+.card-solicitacao .badge-nivel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 27px;
+    padding: 6px 14px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.card-solicitacao .badge-nivel {
+    background: #FFF3E0;
+    color: #E65100;
+}
+
+
+/* ==================================================
+   STATUS DAS SOLICITAÇÕES
+================================================== */
+
+.card-solicitacao .status-pendente,
+.card-solicitacao .status-aceita,
+.card-solicitacao .status-recusada {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: auto;
+    height: auto;
+    min-height: 32px;
+
+    padding: 7px 14px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.card-solicitacao .status-pendente {
+    background: #FFF8E1;
+    color: #F9A825;
+}
+
+.card-solicitacao .status-aceita {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.card-solicitacao .status-recusada {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+
+/* ==================================================
+   TEXTOS
+================================================== */
+
+.texto-objetivo {
+    color: #555;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE
+================================================== */
+
+@media (max-width: 575px) {
+
+    .card-solicitacao {
+        padding: 20px;
+    }
+
+    .rodape-solicitacao {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .rodape-solicitacao > div {
+        width: 100%;
+    }
+
+    .rodape-solicitacao .btn {
+        flex: 1;
+    }
+
+}

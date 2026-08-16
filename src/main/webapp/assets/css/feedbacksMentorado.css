@@ -1,0 +1,42 @@
+/* ===== ESTILOS ESPECIFICOS DESTA PAGINA ===== */
+
+.box-pendente{
+background:linear-gradient(135deg,#43A047,#2E7D32);
+border-radius:20px;
+padding:28px;
+color:white;
+margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.box-pendente .btn{
+background:white;
+color:#2E7D32;
+font-weight:bold;
+border-radius:12px;
+border:none;
+padding:12px 26px;
+}
+
+.modal .form-control{
+border-radius:12px;
+}
+
+.modal .form-control:focus{
+border-color:#2E7D32;
+box-shadow:0 0 8px rgba(46,125,50,.2);
+}
+
+.estrelas-input{
+font-size:32px;
+color:#ddd;
+cursor:pointer;
+}
+
+.estrelas-input i.ativa{
+color:#FFB300;
+}

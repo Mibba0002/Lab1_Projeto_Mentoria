@@ -1,0 +1,308 @@
+/* ===== ESTILOS ESPECÍFICOS DESTA PÁGINA ===== */
+
+
+/* ==================================================
+   AJUSTE GERAL DA PÁGINA
+================================================== */
+
+.content {
+    min-height: 100vh;
+    padding-top: 18px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+
+/* ==================================================
+   CABEÇALHO
+================================================== */
+
+.header {
+    margin-bottom: 12px;
+}
+
+.header h2 {
+    margin-bottom: 2px;
+    font-size: 24px;
+    line-height: 1.15;
+}
+
+.header p {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   STATUS DO MENTOR
+================================================== */
+
+.status-mentor {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 16px;
+    border-radius: 20px;
+
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1;
+}
+
+
+/* ==================================================
+   ESPAÇAMENTO ENTRE AS LINHAS
+================================================== */
+
+.content > .row {
+    --bs-gutter-x: 18px;
+    --bs-gutter-y: 12px;
+
+    margin-bottom: 12px;
+}
+
+
+/* ==================================================
+   CARDS SUPERIORES
+================================================== */
+
+.card-dashboard {
+    min-height: 94px;
+    height: 100%;
+
+    padding: 14px 18px;
+    margin-bottom: 0;
+
+    border-radius: 18px;
+}
+
+.card-dashboard h6 {
+    margin-bottom: 5px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.card-dashboard h2 {
+    margin-bottom: 5px;
+    font-size: 26px;
+    line-height: 1;
+}
+
+.card-dashboard p {
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+
+/* ==================================================
+   CAIXAS GERAIS
+================================================== */
+
+.box {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+
+    border-radius: 18px;
+}
+
+.box h5 {
+    font-size: 17px;
+}
+
+
+/* ==================================================
+   GRÁFICOS
+================================================== */
+
+/* Seleciona especificamente a linha dos gráficos */
+
+.content > .header + .row + .row .box {
+    height: 225px;
+    margin-bottom: 0;
+}
+
+.content > .header + .row + .row h5 {
+    margin-bottom: 8px !important;
+}
+
+.chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 165px;
+}
+
+
+/* ==================================================
+   CAIXAS DAS TABELAS
+================================================== */
+
+.content > .box {
+    padding-top: 14px;
+    padding-bottom: 12px;
+}
+
+.content > .box:last-of-type {
+    margin-bottom: 0;
+}
+
+.content > .box > .d-flex {
+    margin-bottom: 8px !important;
+}
+
+
+/* ==================================================
+   TABELAS
+================================================== */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+    padding: 6px 8px;
+    font-size: 12.5px;
+    vertical-align: middle;
+}
+
+.table thead th {
+    padding-top: 5px;
+    padding-bottom: 7px;
+    font-size: 12px;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ==================================================
+   AVATARES, BADGES E BOTÕES DAS TABELAS
+================================================== */
+
+.content .avatar-sm {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+
+    font-size: 11px;
+}
+
+.content .table .badge {
+    padding: 4px 7px;
+    font-size: 10.5px;
+}
+
+.content .table .btn-sm,
+.content > .box .btn-sm {
+    padding: 4px 9px;
+    font-size: 11.5px;
+}
+
+
+/* ==================================================
+   TELAS COM POUCA ALTURA
+================================================== */
+
+@media (min-width: 992px) and (max-height: 800px) {
+
+    .content {
+        padding-top: 10px;
+        padding-bottom: 6px;
+    }
+
+    .header {
+        margin-bottom: 7px;
+    }
+
+    .header h2 {
+        font-size: 21px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    .content > .row {
+        --bs-gutter-y: 8px;
+        margin-bottom: 8px;
+    }
+
+    .card-dashboard {
+        min-height: 76px;
+        padding: 10px 15px;
+    }
+
+    .card-dashboard h6 {
+        margin-bottom: 3px;
+        font-size: 12px;
+    }
+
+    .card-dashboard h2 {
+        margin-bottom: 3px;
+        font-size: 22px;
+    }
+
+    .card-dashboard p {
+        font-size: 11px;
+    }
+
+    .content > .header + .row + .row .box {
+        height: 188px;
+    }
+
+    .chart-wrap {
+        height: 133px;
+    }
+
+    .box {
+        padding: 11px 16px;
+        margin-bottom: 8px;
+    }
+
+    .box h5 {
+        font-size: 15px;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 4px 7px;
+        font-size: 11.5px;
+    }
+
+    .table thead th {
+        padding-top: 3px;
+        padding-bottom: 5px;
+        font-size: 11px;
+    }
+
+    .content .avatar-sm {
+        width: 27px;
+        height: 27px;
+        min-width: 27px;
+        font-size: 10px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE PARA TABLETS E CELULARES
+================================================== */
+
+@media (max-width: 991px) {
+
+    .content {
+        min-height: auto;
+        padding-bottom: 20px;
+    }
+
+    .content > .header + .row + .row .box {
+        height: 260px;
+    }
+
+    .chart-wrap {
+        height: 200px;
+    }
+
+}
