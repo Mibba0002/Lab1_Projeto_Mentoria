@@ -19,34 +19,33 @@ public class MentoriaDao {
     public boolean cadastrar(Mentoria mentoria) {
 
         String sql = "INSERT INTO Mentoria "
-                   + "(cpf_mentorado, id_especializacao, status, "
+                   + "(cpf_mentor, cpf_mentorado, id_especializacao, status, "
                    + "data_inicio, data_fim, objetivos_definidos, "
-                   + "depoimentos, id_area_atuacao, cpf_mentor) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                   + "depoimentos) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, mentoria.getCpfMentorado());
-            stmt.setInt(2, mentoria.getIdEspecializacao());
-            stmt.setString(3, mentoria.getStatus());
+            stmt.setString(1, mentoria.getCpfMentor());
+            stmt.setString(2, mentoria.getCpfMentorado());
+            stmt.setInt(3, mentoria.getIdEspecializacao());
+            stmt.setString(4, mentoria.getStatus());
 
             if (mentoria.getDataInicio() != null) {
-                stmt.setDate(4, Date.valueOf(mentoria.getDataInicio()));
-            } else {
-                stmt.setDate(4, null);
-            }
-
-            if (mentoria.getDataFim() != null) {
-                stmt.setDate(5, Date.valueOf(mentoria.getDataFim()));
+                stmt.setDate(5, Date.valueOf(mentoria.getDataInicio()));
             } else {
                 stmt.setDate(5, null);
             }
 
-            stmt.setString(6, mentoria.getObjetivosDefinidos());
-            stmt.setString(7, mentoria.getDepoimentos());
-            stmt.setInt(8, mentoria.getIdAreaAtuacao());
-            stmt.setString(9, mentoria.getCpfMentor());
+            if (mentoria.getDataFim() != null) {
+                stmt.setDate(6, Date.valueOf(mentoria.getDataFim()));
+            } else {
+                stmt.setDate(6, null);
+            }
+
+            stmt.setString(7, mentoria.getObjetivosDefinidos());
+            stmt.setString(8, mentoria.getDepoimentos());
 
             stmt.executeUpdate();
 
@@ -185,41 +184,39 @@ public class MentoriaDao {
     public boolean atualizar(Mentoria mentoria) {
 
         String sql = "UPDATE Mentoria SET "
+                   + "cpf_mentor = ?, "
                    + "cpf_mentorado = ?, "
                    + "id_especializacao = ?, "
                    + "status = ?, "
                    + "data_inicio = ?, "
                    + "data_fim = ?, "
                    + "objetivos_definidos = ?, "
-                   + "depoimentos = ?, "
-                   + "id_area_atuacao = ?, "
-                   + "cpf_mentor = ? "
+                   + "depoimentos = ? "
                    + "WHERE id_mentoria = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, mentoria.getCpfMentorado());
-            stmt.setInt(2, mentoria.getIdEspecializacao());
-            stmt.setString(3, mentoria.getStatus());
+            stmt.setString(1, mentoria.getCpfMentor());
+            stmt.setString(2, mentoria.getCpfMentorado());
+            stmt.setInt(3, mentoria.getIdEspecializacao());
+            stmt.setString(4, mentoria.getStatus());
 
             if (mentoria.getDataInicio() != null) {
-                stmt.setDate(4, Date.valueOf(mentoria.getDataInicio()));
-            } else {
-                stmt.setDate(4, null);
-            }
-
-            if (mentoria.getDataFim() != null) {
-                stmt.setDate(5, Date.valueOf(mentoria.getDataFim()));
+                stmt.setDate(5, Date.valueOf(mentoria.getDataInicio()));
             } else {
                 stmt.setDate(5, null);
             }
 
-            stmt.setString(6, mentoria.getObjetivosDefinidos());
-            stmt.setString(7, mentoria.getDepoimentos());
-            stmt.setInt(8, mentoria.getIdAreaAtuacao());
-            stmt.setString(9, mentoria.getCpfMentor());
-            stmt.setInt(10, mentoria.getIdMentoria());
+            if (mentoria.getDataFim() != null) {
+                stmt.setDate(6, Date.valueOf(mentoria.getDataFim()));
+            } else {
+                stmt.setDate(6, null);
+            }
+
+            stmt.setString(7, mentoria.getObjetivosDefinidos());
+            stmt.setString(8, mentoria.getDepoimentos());
+            stmt.setInt(9, mentoria.getIdMentoria());
 
             return stmt.executeUpdate() > 0;
 
@@ -249,6 +246,67 @@ public class MentoriaDao {
 
         } catch (SQLException e) {
             System.out.println("Erro ao excluir mentoria: "
+                    + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean existePendente(String cpfMentor, String cpfMentorado) {
+        String sql = "SELECT 1 FROM Mentoria WHERE cpf_mentor = ? "
+                + "AND cpf_mentorado = ? AND status = 'Pendente'";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cpfMentor);
+            stmt.setString(2, cpfMentorado);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar solicitação: "
+                    + e.getMessage());
+            return true;
+        }
+    }
+
+    public boolean alterarStatusSePendente(int idMentoria,
+                                           String cpfMentor,
+                                           String novoStatus) {
+        String sql = "UPDATE Mentoria SET status = ?, "
+                + "data_inicio = CASE WHEN ? = 'Ativa' "
+                + "THEN CURRENT_DATE ELSE data_inicio END "
+                + "WHERE id_mentoria = ? AND cpf_mentor = ? "
+                + "AND status = 'Pendente'";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, novoStatus);
+            stmt.setString(2, novoStatus);
+            stmt.setInt(3, idMentoria);
+            stmt.setString(4, cpfMentor);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Erro ao responder solicitação: "
+                    + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean finalizarSeAtiva(int idMentoria, String cpfMentor) {
+        String sql = "UPDATE Mentoria SET status = 'Finalizada', "
+                + "data_fim = CURRENT_DATE "
+                + "WHERE id_mentoria = ? AND cpf_mentor = ? "
+                + "AND status = 'Ativa'";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idMentoria);
+            stmt.setString(2, cpfMentor);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Erro ao finalizar mentoria: "
                     + e.getMessage());
             return false;
         }
@@ -302,10 +360,6 @@ public class MentoriaDao {
 
         mentoria.setDepoimentos(
                 rs.getString("depoimentos")
-        );
-
-        mentoria.setIdAreaAtuacao(
-                rs.getInt("id_area_atuacao")
         );
 
         mentoria.setCpfMentor(

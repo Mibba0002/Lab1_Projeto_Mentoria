@@ -50,6 +50,13 @@ public class AreaAtuacaoController {
         return areaAtuacaoDAO.buscarPorId(id);
     }
 
+    public AreaAtuacao buscarPorNome(String nomeArea) {
+        if (nomeArea == null || nomeArea.trim().isEmpty()) {
+            return null;
+        }
+        return areaAtuacaoDAO.buscarPorNome(nomeArea.trim());
+    }
+
 
     // ==========================================
     // LISTAR
@@ -99,6 +106,11 @@ public class AreaAtuacaoController {
             return false;
         }
 
-        return areaAtuacaoDAO.excluir(id);
+        return !areaAtuacaoDAO.estaEmUso(id)
+                && areaAtuacaoDAO.excluir(id);
+    }
+
+    public boolean areaEmUso(int id) {
+        return id > 0 && areaAtuacaoDAO.estaEmUso(id);
     }
 }

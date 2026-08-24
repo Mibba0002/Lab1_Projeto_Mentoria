@@ -1,14 +1,22 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="dao.AreaAtuacaoDao" %>
+<%@ page import="model.AreaAtuacao" %>
+<%@ page import="util.HtmlUtil" %>
+<%
+ArrayList<AreaAtuacao> areasDisponiveis = new AreaAtuacaoDao().listar();
+%>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Mentorado</title>
+    <title>Cadastro de Mentor</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/cadastroMentorado.css">
+    <link rel="stylesheet" href="../assets/css/cadastroMentor.css">
 
     <style>
         .select-tags-wrapper {
@@ -117,9 +125,9 @@
             Mentoria
         </div>
 
-        <a href="dashboardMentorado.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="Cadastrode_Mentor.html"><i class="bi bi-person-workspace"></i> Mentores</a>
-        <a href="cadastroMentorado.html" class="active"><i class="bi bi-mortarboard-fill"></i> Mentorados</a>
+        <a href="../dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="Cadastrode_Mentor.jsp" class="active"><i class="bi bi-person-workspace"></i> Mentores</a>
+        <a href="cadastroMentorado.jsp"><i class="bi bi-mortarboard-fill"></i> Mentorados</a>
         <a href="login.html"><i class="bi bi-box-arrow-left"></i> Sair</a>
     </aside>
 
@@ -127,40 +135,56 @@
         <section class="formulario">
             <div class="text-center cabecalho-formulario">
                 <div class="perfil">
-                    <i class="bi bi-mortarboard-fill"></i>
+                    <i class="bi bi-person-workspace"></i>
                 </div>
-                <h2 class="text-success">Cadastro de Mentorado</h2>
-                <p class="text-muted">Encontre um mentor para acelerar sua carreira na área de eventos.</p>
+                <h2 class="text-success">Cadastro de Mentor</h2>
+                <p class="text-muted">Compartilhe sua experiência com novos profissionais.</p>
                 <span class="badge-etapa">Etapa 1 de 1</span>
             </div>
 
             <hr>
 
-            <form id="formMentorado">
+            <% if ("cadastro".equals(request.getParameter("erro"))) { %>
+            <div class="alert alert-danger">CPF ou e-mail já cadastrado, ou não foi possível salvar.</div>
+            <% } else if ("dados".equals(request.getParameter("erro"))) { %>
+            <div class="alert alert-warning">Selecione pelo menos uma área e uma disponibilidade.</div>
+            <% } %>
+
+            <form id="formMentor" action="<%= request.getContextPath() %>/cadastro-mentor" method="post">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="nomeMentorado" class="form-label fw-semibold">Nome Completo</label>
-                        <input type="text" class="form-control" id="nomeMentorado" name="nome" placeholder="Digite seu nome" required>
+                        <label for="nomeMentor" class="form-label fw-semibold">Nome Completo</label>
+                        <input type="text" class="form-control" id="nomeMentor" name="nome" placeholder="Digite seu nome" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="emailMentorado" class="form-label fw-semibold">Email</label>
-                        <input type="email" class="form-control" id="emailMentorado" name="email" placeholder="Digite seu email" required>
+                        <label for="emailMentor" class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control" id="emailMentor" name="email" placeholder="Digite seu email" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="cpfMentor" class="form-label fw-semibold">CPF</label>
+                        <input type="text" class="form-control" id="cpfMentor" name="cpf" maxlength="14" placeholder="000.000.000-00" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="senhaMentor" class="form-label fw-semibold">Senha</label>
+                        <input type="password" class="form-control" id="senhaMentor" name="senha" minlength="6" placeholder="Mínimo de 6 caracteres" required>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="telefoneMentorado" class="form-label fw-semibold">Telefone</label>
-                        <input type="tel" class="form-control" id="telefoneMentorado" name="telefone" placeholder="(00) 00000-0000" required>
+                        <label for="telefoneMentor" class="form-label fw-semibold">Telefone</label>
+                        <input type="tel" class="form-control" id="telefoneMentor" name="telefone" placeholder="(00) 00000-0000" required>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="formacaoMentorado" class="form-label fw-semibold">Formação</label>
-                        <input type="text" class="form-control" id="formacaoMentorado" name="formacao" placeholder="Ex.: Administração" required>
+                        <label for="experienciaMentor" class="form-label fw-semibold">Tempo de Experiência</label>
+                        <input type="number" class="form-control" id="experienciaMentor" name="tempoExperiencia" min="0" placeholder="Anos" required>
                     </div>
 
                     <div class="col-md-2">
-                        <label for="estadoMentorado" class="form-label fw-semibold">Estado</label>
-                        <select class="form-select" id="estadoMentorado" name="estado" required>
+                        <label for="estadoMentor" class="form-label fw-semibold">Estado</label>
+                        <select class="form-select" id="estadoMentor" name="estado" required>
                             <option value="" selected disabled>UF</option>
                             <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
                             <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
@@ -175,55 +199,70 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="cidadeMentorado" class="form-label fw-semibold">Cidade</label>
-                        <select class="form-select" id="cidadeMentorado" name="cidade" required disabled>
-                            <option value="">Selecione o estado</option>
-                        </select>
+                        <label for="cidadeMentor" class="form-label fw-semibold">Cidade</label>
+                        <input type="text" class="form-control" id="cidadeMentor" name="cidade"
+                               maxlength="100" placeholder="Digite sua cidade" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="nivelExperiencia" class="form-label fw-semibold">Nível de Experiência</label>
-                        <select class="form-select" id="nivelExperiencia" name="nivelExperiencia" required>
-                            <option value="" selected disabled>Selecione seu nível</option>
-                            <option value="Iniciante">Iniciante</option>
-                            <option value="Intermediário">Intermediário</option>
-                            <option value="Avançado">Avançado</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Áreas de Interesse</label>
-                        <div class="select-tags-wrapper" id="componenteAreasInteresse">
+                        <label class="form-label fw-semibold">Áreas de Atuação</label>
+                        <div class="select-tags-wrapper" id="componenteAreasAtuacao">
                             <div class="select-tags-display" tabindex="0">
-                                <span class="select-tags-placeholder">Selecione uma ou mais áreas...</span>
+                                <span class="select-tags-placeholder">Selecione as especialidades...</span>
                             </div>
                             <div class="select-tags-dropdown">
-                                <div class="select-option-item" data-value="Eventos Corporativos">Eventos Corporativos</div>
-                                <div class="select-option-item" data-value="Eventos Sociais">Eventos Sociais</div>
-                                <div class="select-option-item" data-value="Eventos Culturais">Eventos Culturais</div>
-                                <div class="select-option-item" data-value="Eventos Esportivos">Eventos Esportivos</div>
-                                <div class="select-option-item" data-value="Marketing">Marketing</div>
-                                <div class="select-option-item" data-value="Produção">Produção</div>
-                                <div class="select-option-item" data-value="Cerimonial">Cerimonial</div>
-                                <div class="select-option-item" data-value="Logística">Logística</div>
+                                <% for (AreaAtuacao area : areasDisponiveis) { %>
+                                <div class="select-option-item"
+                                     data-value="<%= area.getIdAreaAtuacao() %>"
+                                     data-label="<%= HtmlUtil.escapar(area.getNomeArea()) %>"><%= HtmlUtil.escapar(area.getNomeArea()) %></div>
+                                <% } %>
                             </div>
                             <div class="hidden-inputs-container"></div>
                         </div>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="objetivosMentorado" class="form-label fw-semibold">Objetivos Profissionais</label>
-                        <textarea class="form-control" id="objetivosMentorado" name="objetivos" placeholder="Descreva seus objetivos na área de eventos..." rows="3" required></textarea>
+                        <label class="form-label fw-semibold">Disponibilidade</label>
+                        <div class="select-tags-wrapper" id="componenteDisponibilidade">
+                            <div class="select-tags-display" tabindex="0">
+                                <span class="select-tags-placeholder">Selecione os turnos...</span>
+                            </div>
+                            <div class="select-tags-dropdown">
+                                <div class="select-option-item" data-value="Manhã">Manhã</div>
+                                <div class="select-option-item" data-value="Tarde">Tarde</div>
+                                <div class="select-option-item" data-value="Noite">Noite</div>
+                                <div class="select-option-item" data-value="Fim de Semana">Fim de Semana</div>
+                            </div>
+                            <div class="hidden-inputs-container"></div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="expectativasMentorado" class="form-label fw-semibold">Dúvidas ou Expectativas</label>
-                        <textarea class="form-control" id="expectativasMentorado" name="expectativas" placeholder="O que você espera aprender com a mentoria?" rows="3" required></textarea>
+                    <div class="col-md-4">
+                        <label for="formatoMentoria" class="form-label fw-semibold">Formato da Mentoria</label>
+                        <select class="form-select" id="formatoMentoria" name="formato" required>
+                            <option value="" selected disabled>Selecione</option>
+                            <option value="Online">Online</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Híbrida">Híbrida</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="portfolioMentor" class="form-label fw-semibold">LinkedIn / Portfólio</label>
+                        <input type="url" class="form-control" id="portfolioMentor" name="portfolio" placeholder="https://...">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="biografiaMentor" class="form-label fw-semibold">Mini Biografia</label>
+                        <textarea class="form-control" id="biografiaMentor" name="biografia" placeholder="Conte brevemente sua experiência profissional..." rows="3" required></textarea>
                     </div>
 
                     <div class="col-12 mt-2">
+                        <% if (areasDisponiveis.isEmpty()) { %>
+                        <div class="alert alert-warning">O administrador ainda não cadastrou áreas de atuação.</div>
+                        <% } %>
                         <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
-                            <i class="bi bi-person-plus-fill me-1"></i> Cadastrar Mentorado
+                            <i class="bi bi-check-circle-fill me-1"></i> Cadastrar Mentor
                         </button>
                     </div>
                 </div>
@@ -231,7 +270,6 @@
         </section>
     </main>
 
-    <script src="js/cidades.js"></script>
     <script>
         function inicializarDropdownTags(wrapperId, inputName) {
             const wrapper = document.getElementById(wrapperId);
@@ -241,7 +279,7 @@
             const hiddenContainer = wrapper.querySelector('.hidden-inputs-container');
             const options = wrapper.querySelectorAll('.select-option-item');
 
-            let selecionados = new Set();
+            let selecionados = new Map();
 
             display.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('bi-x')) {
@@ -260,11 +298,12 @@
             options.forEach(opt => {
                 opt.addEventListener('click', () => {
                     const val = opt.dataset.value;
+                    const label = opt.dataset.label || val;
                     if (selecionados.has(val)) {
                         selecionados.delete(val);
                         opt.classList.remove('selected');
                     } else {
-                        selecionados.add(val);
+                        selecionados.set(val, label);
                         opt.classList.add('selected');
                     }
                     atualizarVisualizacao();
@@ -279,21 +318,28 @@
                     placeholder.style.display = 'inline';
                 } else {
                     placeholder.style.display = 'none';
-                    selecionados.forEach(val => {
+                    selecionados.forEach((label, val) => {
                         const badge = document.createElement('span');
                         badge.className = 'select-tag-badge';
-                        badge.innerHTML = `${val} <i class="bi bi-x" data-val="${val}"></i>`;
-                        badge.querySelector('i').addEventListener('click', (e) => {
+                        badge.appendChild(document.createTextNode(label + ' '));
+                        const remover = document.createElement('i');
+                        remover.className = 'bi bi-x';
+                        remover.dataset.val = val;
+                        badge.appendChild(remover);
+                        remover.addEventListener('click', (e) => {
                             e.stopPropagation();
                             selecionados.delete(val);
-                            wrapper.querySelector(`.select-option-item[data-value="${val}"]`).classList.remove('selected');
+                            const opcao = wrapper.querySelector(
+                                '.select-option-item[data-value="' + val + '"]'
+                            );
+                            if (opcao) opcao.classList.remove('selected');
                             atualizarVisualizacao();
                         });
                         display.appendChild(badge);
 
                         const hidden = document.createElement('input');
                         hidden.type = 'hidden';
-                        hidden.name = `${inputName}[]`;
+                        hidden.name = inputName + '[]';
                         hidden.value = val;
                         hiddenContainer.appendChild(hidden);
                     });
@@ -302,7 +348,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            inicializarDropdownTags('componenteAreasInteresse', 'areasInteresse');
+            inicializarDropdownTags('componenteAreasAtuacao', 'areas');
+            inicializarDropdownTags('componenteDisponibilidade', 'disponibilidades');
         });
     </script>
 </body>

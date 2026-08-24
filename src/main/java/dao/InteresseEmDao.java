@@ -17,9 +17,9 @@ public class InteresseEmDao {
 
     public boolean cadastrar(InteresseEm interesse) {
 
-        String sql = "INSERT INTO Interesse "
-                   + "(id_area_atuacao, cpf_mentorado, nivel_experiencia) "
-                   + "VALUES (?, ?, ?)";
+        String sql = "INSERT INTO interesse_em "
+                   + "(id_area_atuacao, cpf_mentorado, area_interesse, "
+                   + "nivel_experiencia) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -36,6 +36,11 @@ public class InteresseEmDao {
 
             stmt.setString(
                 3,
+                interesse.getAreaInteresse()
+            );
+
+            stmt.setString(
+                4,
                 interesse.getNivelExperiencia()
             );
 
@@ -59,7 +64,7 @@ public class InteresseEmDao {
 
         ArrayList<InteresseEm> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM Interesse "
+        String sql = "SELECT * FROM interesse_em "
                    + "WHERE cpf_mentorado = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -93,7 +98,7 @@ public class InteresseEmDao {
 
         ArrayList<InteresseEm> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM Interesse";
+        String sql = "SELECT * FROM interesse_em";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -121,8 +126,8 @@ public class InteresseEmDao {
 
     public boolean atualizar(InteresseEm interesse) {
 
-        String sql = "UPDATE Interesse "
-                   + "SET nivel_experiencia = ? "
+        String sql = "UPDATE interesse_em "
+                   + "SET area_interesse = ?, nivel_experiencia = ? "
                    + "WHERE id_area_atuacao = ? "
                    + "AND cpf_mentorado = ?";
 
@@ -131,16 +136,21 @@ public class InteresseEmDao {
 
             stmt.setString(
                 1,
+                interesse.getAreaInteresse()
+            );
+
+            stmt.setString(
+                2,
                 interesse.getNivelExperiencia()
             );
 
             stmt.setInt(
-                2,
+                3,
                 interesse.getIdAreaAtuacao()
             );
 
             stmt.setString(
-                3,
+                4,
                 interesse.getCpfMentorado()
             );
 
@@ -160,7 +170,7 @@ public class InteresseEmDao {
 
     public boolean excluir(int idAreaAtuacao, String cpfMentorado) {
 
-        String sql = "DELETE FROM Interesse "
+        String sql = "DELETE FROM interesse_em "
                    + "WHERE id_area_atuacao = ? "
                    + "AND cpf_mentorado = ?";
 
@@ -186,7 +196,7 @@ public class InteresseEmDao {
 
     public boolean existe(int idAreaAtuacao, String cpfMentorado) {
 
-        String sql = "SELECT * FROM Interesse "
+        String sql = "SELECT * FROM interesse_em "
                    + "WHERE id_area_atuacao = ? "
                    + "AND cpf_mentorado = ?";
 
@@ -227,6 +237,10 @@ public class InteresseEmDao {
 
         interesse.setNivelExperiencia(
             rs.getString("nivel_experiencia")
+        );
+
+        interesse.setAreaInteresse(
+            rs.getString("area_interesse")
         );
 
         return interesse;

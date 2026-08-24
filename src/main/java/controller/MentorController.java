@@ -17,6 +17,17 @@ public class MentorController {
 
     public boolean cadastrarMentor(Mentor mentor) {
 
+        if (mentor == null || textoVazio(mentor.getCpfMentor())
+                || textoVazio(mentor.getNome())
+                || textoVazio(mentor.getEmail())
+                || textoVazio(mentor.getSenha())
+                || textoVazio(mentor.getTelefone())
+                || textoVazio(mentor.getCidade())
+                || textoVazio(mentor.getEstado())) {
+            System.out.println("Dados obrigatórios do mentor não informados.");
+            return false;
+        }
+
         // Verifica se o CPF já está cadastrado
         if (mentorDao.cpfExiste(mentor.getCpfMentor())) {
             System.out.println("CPF já cadastrado.");
@@ -27,6 +38,10 @@ public class MentorController {
         if (mentorDao.emailExiste(mentor.getEmail())) {
             System.out.println("E-mail já cadastrado.");
             return false;
+        }
+
+        if (textoVazio(mentor.getStatus())) {
+            mentor.setStatus("Ativo");
         }
 
         // Cadastra o mentor
@@ -44,7 +59,7 @@ public class MentorController {
     // BUSCAR POR EMAIL
    
     public Mentor buscarPorEmail(String email) {
-        return mentorDao.buscarPorCpf(email);
+        return mentorDao.buscarPorEmail(email);
     }
 
 
@@ -74,5 +89,13 @@ public class MentorController {
    
     public boolean excluirMentor(String cpf) {
         return mentorDao.excluir(cpf);
+    }
+
+    public boolean alterarStatus(String cpf, String status) {
+        return mentorDao.alterarStatus(cpf, status);
+    }
+
+    private boolean textoVazio(String texto) {
+        return texto == null || texto.trim().isEmpty();
     }
 }

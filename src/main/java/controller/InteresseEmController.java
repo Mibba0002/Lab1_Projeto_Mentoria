@@ -43,6 +43,12 @@ public class InteresseEmController {
             return false;
         }
 
+        if (interesse.getAreaInteresse() == null
+                || interesse.getAreaInteresse().trim().isEmpty()) {
+            System.out.println("Área de interesse não informada.");
+            return false;
+        }
+
         // Verifica se o interesse já existe
         if (interesseEmDAO.existe(
                 interesse.getIdAreaAtuacao(),
@@ -112,6 +118,12 @@ public class InteresseEmController {
             interesse.getNivelExperiencia().trim().isEmpty()) {
 
             System.out.println("Nível de experiência não informado.");
+            return false;
+        }
+
+        if (interesse.getAreaInteresse() == null
+                || interesse.getAreaInteresse().trim().isEmpty()) {
+            System.out.println("Área de interesse não informada.");
             return false;
         }
 

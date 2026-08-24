@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import model.Encontro;
@@ -21,8 +22,8 @@ public class EncontroDao {
 
         String sql = "INSERT INTO Encontro "
                    + "(id_mentoria, data, horario, tipo_encontro, "
-                   + "descricao, link_reuniao) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
+                   + "descricao, link_reuniao, status, local_encontro) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,6 +34,8 @@ public class EncontroDao {
             stmt.setString(4, encontro.getTipoEncontro());
             stmt.setString(5, encontro.getDescricao());
             stmt.setString(6, encontro.getLinkReuniao());
+            stmt.setString(7, encontro.getStatus());
+            stmt.setString(8, encontro.getLocalEncontro());
 
             stmt.executeUpdate();
 
@@ -84,7 +87,7 @@ public class EncontroDao {
         ArrayList<Encontro> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM Encontro "
-                   + "WHERE id_mentoria = ?";
+                   + "WHERE id_mentoria = ? ORDER BY data, horario";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -145,7 +148,9 @@ public class EncontroDao {
                    + "horario = ?, "
                    + "tipo_encontro = ?, "
                    + "descricao = ?, "
-                   + "link_reuniao = ? "
+                   + "link_reuniao = ?, "
+                   + "status = ?, "
+                   + "local_encontro = ? "
                    + "WHERE id_encontro = ?";
 
         try (Connection conn = Conexao.conectar();
@@ -157,12 +162,49 @@ public class EncontroDao {
             stmt.setString(4, encontro.getTipoEncontro());
             stmt.setString(5, encontro.getDescricao());
             stmt.setString(6, encontro.getLinkReuniao());
-            stmt.setInt(7, encontro.getIdEncontro());
+            stmt.setString(7, encontro.getStatus());
+            stmt.setString(8, encontro.getLocalEncontro());
+            stmt.setInt(9, encontro.getIdEncontro());
 
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar encontro: "
+                    + e.getMessage());
+            return false;
+        }
+    }
+
+
+    // ==========================================
+    // REGISTRAR RESULTADO DO ENCONTRO
+    // ==========================================
+
+    public boolean registrarResultado(int idEncontro,
+                                      String cpfMentor,
+                                      String status,
+                                      String motivo) {
+        String sql = "UPDATE Encontro e "
+                + "INNER JOIN Mentoria m ON m.id_mentoria = e.id_mentoria "
+                + "SET e.status = ?, e.motivo_nao_realizacao = ? "
+                + "WHERE e.id_encontro = ? AND m.cpf_mentor = ? "
+                + "AND LOWER(TRIM(e.status)) IN ('agendado', 'pendente')";
+
+        try (Connection conn = Conexao.conectar()) {
+            garantirColunaMotivo(conn);
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, status);
+                if (motivo == null || motivo.isBlank()) {
+                    stmt.setNull(2, Types.VARCHAR);
+                } else {
+                    stmt.setString(2, motivo);
+                }
+                stmt.setInt(3, idEncontro);
+                stmt.setString(4, cpfMentor);
+                return stmt.executeUpdate() > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao registrar resultado do encontro: "
                     + e.getMessage());
             return false;
         }
@@ -233,6 +275,38 @@ public class EncontroDao {
             rs.getString("link_reuniao")
         );
 
+        encontro.setStatus(
+            rs.getString("status")
+        );
+
+        encontro.setLocalEncontro(
+            rs.getString("local_encontro")
+        );
+
+        try {
+            encontro.setMotivoNaoRealizacao(
+                rs.getString("motivo_nao_realizacao")
+            );
+        } catch (SQLException e) {
+            // Compatibilidade com bancos criados antes desta funcionalidade.
+            encontro.setMotivoNaoRealizacao(null);
+        }
+
         return encontro;
+    }
+
+    private void garantirColunaMotivo(Connection conn) throws SQLException {
+        String consulta = "SELECT 1 FROM information_schema.COLUMNS "
+                + "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'Encontro' "
+                + "AND COLUMN_NAME = 'motivo_nao_realizacao'";
+        try (PreparedStatement stmt = conn.prepareStatement(consulta);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) return;
+        }
+        try (PreparedStatement stmt = conn.prepareStatement(
+                "ALTER TABLE Encontro ADD COLUMN "
+                + "motivo_nao_realizacao TEXT NULL AFTER status")) {
+            stmt.executeUpdate();
+        }
     }
 }

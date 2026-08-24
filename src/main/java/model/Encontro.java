@@ -9,6 +9,9 @@ public class Encontro {
     private LocalDate data;
     private LocalTime horario;
     private String tipoEncontro, descricao, linkReuniao;
+    private String status;
+    private String localEncontro;
+    private String motivoNaoRealizacao;
 
     public Encontro() {}
 
@@ -64,9 +67,33 @@ public class Encontro {
 		return linkReuniao;
 	}
 
-	public void setLinkReuniao(String linkReuniao) {
-		this.linkReuniao = linkReuniao;
-	}
+		public void setLinkReuniao(String linkReuniao) {
+			this.linkReuniao = linkReuniao;
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public String getLocalEncontro() {
+			return localEncontro;
+		}
+
+		public void setLocalEncontro(String localEncontro) {
+			this.localEncontro = localEncontro;
+		}
+
+		public String getMotivoNaoRealizacao() {
+			return motivoNaoRealizacao;
+		}
+
+		public void setMotivoNaoRealizacao(String motivoNaoRealizacao) {
+			this.motivoNaoRealizacao = motivoNaoRealizacao;
+		}
     
     
 }

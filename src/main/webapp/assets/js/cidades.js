@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function configurarSelecaoDeCidades(estadoId, cidadeId) {
-    const estadoSelect = document.getElementById(estadoId);
-    const cidadeSelect = document.getElementById(cidadeId);
+    var estadoSelect = document.getElementById(estadoId);
+    var cidadeSelect = document.getElementById(cidadeId);
 
     /*
      * Como o mesmo JavaScript será usado em páginas diferentes,
@@ -16,7 +16,7 @@ function configurarSelecaoDeCidades(estadoId, cidadeId) {
     }
 
     estadoSelect.addEventListener("change", function () {
-        const ufSelecionada = estadoSelect.value;
+        var ufSelecionada = estadoSelect.value;
 
         if (!ufSelecionada) {
             limparCidades(cidadeSelect);
@@ -35,49 +35,52 @@ function configurarSelecaoDeCidades(estadoId, cidadeId) {
     }
 }
 
-async function carregarCidades(uf, cidadeSelect) {
+function carregarCidades(uf, cidadeSelect) {
     cidadeSelect.disabled = true;
     cidadeSelect.innerHTML =
         '<option value="">Carregando cidades...</option>';
 
-    try {
-        const resposta = await fetch(
-            `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${encodeURIComponent(uf)}/municipios?orderBy=nome`
-        );
+    var url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"
+        + encodeURIComponent(uf)
+        + "/municipios?orderBy=nome";
 
-        if (!resposta.ok) {
-            throw new Error(
-                `Erro ao consultar as cidades: ${resposta.status}`
-            );
-        }
+    fetch(url)
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                throw new Error(
+                    "Erro ao consultar as cidades: " + resposta.status
+                );
+            }
 
-        const cidades = await resposta.json();
+            return resposta.json();
+        })
+        .then(function (cidades) {
+            cidadeSelect.innerHTML =
+                '<option value="">Selecione a cidade</option>';
 
-        cidadeSelect.innerHTML =
-            '<option value="">Selecione a cidade</option>';
+            cidades.forEach(function (cidade) {
+                var opcao = document.createElement("option");
 
-        cidades.forEach(function (cidade) {
-            const opcao = document.createElement("option");
+                /*
+                 * O nome será enviado posteriormente ao Servlet
+                 * pelo parâmetro chamado "cidade".
+                 */
+                opcao.value = cidade.nome;
+                opcao.textContent = cidade.nome;
 
-            /*
-             * O nome será enviado posteriormente ao Servlet
-             * pelo parâmetro chamado "cidade".
-             */
-            opcao.value = cidade.nome;
-            opcao.textContent = cidade.nome;
+                cidadeSelect.appendChild(opcao);
+            });
 
-            cidadeSelect.appendChild(opcao);
+            cidadeSelect.disabled = false;
+        })
+        .catch(function (erro) {
+            console.error(erro);
+
+            cidadeSelect.innerHTML =
+                '<option value="">Não foi possível carregar as cidades</option>';
+
+            cidadeSelect.disabled = true;
         });
-
-        cidadeSelect.disabled = false;
-    } catch (erro) {
-        console.error(erro);
-
-        cidadeSelect.innerHTML =
-            '<option value="">Não foi possível carregar as cidades</option>';
-
-        cidadeSelect.disabled = true;
-    }
 }
 
 function limparCidades(cidadeSelect) {
