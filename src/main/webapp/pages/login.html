@@ -14,8 +14,8 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     
-<link rel="stylesheet" href="assets/css/global.css">
-<link rel="stylesheet" href="assets/css/login.css">
+<link rel="stylesheet" href="../assets/css/global.css">
+<link rel="stylesheet" href="../assets/css/login.css">
 
 </head>
 
@@ -35,13 +35,15 @@
 
         
 
-        <form action="dashboardMentor.html" method="get">
+        <div id="mensagemLogin" class="alert d-none" role="alert"></div>
+
+        <form action="../login" method="post">
 
             <div class="mb-3">
 
                 <label>Email</label>
 
-                <input type="email" name="email" class="form-control" placeholder="Digite seu email" required>
+                <input type="email" name="email" id="emailLogin" class="form-control" placeholder="Digite seu email" required>
 
             </div>
 
@@ -116,6 +118,36 @@
             icone.classList.add('bi-eye-fill');
         }
 
+    }
+
+    const parametros = new URLSearchParams(window.location.search);
+    const mensagem = document.getElementById('mensagemLogin');
+    const formularioLogin = document.querySelector('form[action="../login"]');
+    const campoEmail = document.getElementById('emailLogin');
+    const lembrarMe = document.getElementById('lembrarMe');
+    const emailLembrado = localStorage.getItem('miracleLoginEmail');
+
+    if (emailLembrado) {
+        campoEmail.value = emailLembrado;
+        lembrarMe.checked = true;
+    }
+
+    formularioLogin.addEventListener('submit', function () {
+        if (lembrarMe.checked) {
+            localStorage.setItem('miracleLoginEmail', campoEmail.value.trim());
+        } else {
+            localStorage.removeItem('miracleLoginEmail');
+        }
+    });
+
+    if (parametros.get('erro') === 'credenciais') {
+        mensagem.textContent = 'E-mail ou senha inválidos, ou conta inativa.';
+        mensagem.classList.add('alert-danger');
+        mensagem.classList.remove('d-none');
+    } else if (parametros.get('cadastro') === 'sucesso') {
+        mensagem.textContent = 'Cadastro realizado. Agora você já pode entrar.';
+        mensagem.classList.add('alert-success');
+        mensagem.classList.remove('d-none');
     }
 
     </script>

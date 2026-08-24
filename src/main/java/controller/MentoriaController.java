@@ -44,11 +44,6 @@ public class MentoriaController {
             return false;
         }
 
-        if (mentoria.getIdAreaAtuacao() <= 0) {
-            System.out.println("Área de atuação inválida.");
-            return false;
-        }
-
         if (mentoria.getDataInicio() == null) {
             System.out.println("Data de início não informada.");
             return false;
@@ -166,5 +161,13 @@ public class MentoriaController {
         }
 
         return mentoriaDAO.excluir(idMentoria);
+    }
+
+    public boolean finalizarMentoria(int idMentoria, String cpfMentor) {
+        if (idMentoria <= 0 || cpfMentor == null
+                || cpfMentor.trim().isEmpty()) {
+            return false;
+        }
+        return mentoriaDAO.finalizarSeAtiva(idMentoria, cpfMentor);
     }
 }

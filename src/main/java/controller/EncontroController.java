@@ -39,6 +39,11 @@ public class EncontroController {
             return false;
         }
 
+        if (encontro.getStatus() == null
+                || encontro.getStatus().trim().isEmpty()) {
+            encontro.setStatus("Agendado");
+        }
+
         return encontroDAO.cadastrar(encontro);
     }
 
@@ -99,7 +104,37 @@ public class EncontroController {
             return false;
         }
 
+        if (encontro.getStatus() == null
+                || encontro.getStatus().trim().isEmpty()) {
+            encontro.setStatus("Agendado");
+        }
+
         return encontroDAO.atualizar(encontro);
+    }
+
+
+    // ==========================================
+    // REGISTRAR RESULTADO
+    // ==========================================
+
+    public boolean registrarResultado(int idEncontro,
+                                      String cpfMentor,
+                                      String status,
+                                      String motivo) {
+        if (idEncontro <= 0 || cpfMentor == null || cpfMentor.isBlank()) {
+            return false;
+        }
+        boolean realizado = "Realizado".equals(status);
+        boolean naoRealizado = "Não realizado".equals(status);
+        if (!realizado && !naoRealizado) return false;
+
+        String justificativa = motivo == null ? "" : motivo.trim();
+        if (naoRealizado && justificativa.isBlank()) return false;
+        if (justificativa.length() > 1000) return false;
+
+        return encontroDAO.registrarResultado(
+                idEncontro, cpfMentor, status,
+                realizado ? null : justificativa);
     }
 
 

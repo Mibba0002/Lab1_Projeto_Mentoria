@@ -9,7 +9,6 @@ public class Mentoria {
     private String status;
     private LocalDate dataInicio, dataFim;
     private String objetivosDefinidos, depoimentos;
-    private int idAreaAtuacao;
     private String cpfMentor;
 
     public Mentoria() {}
@@ -78,15 +77,7 @@ public class Mentoria {
 		this.depoimentos = depoimentos;
 	}
 
-	public int getIdAreaAtuacao() {
-		return idAreaAtuacao;
-	}
-
-	public void setIdAreaAtuacao(int idAreaAtuacao) {
-		this.idAreaAtuacao = idAreaAtuacao;
-	}
-
-	public String getCpfMentor() {
+		public String getCpfMentor() {
 		return cpfMentor;
 	}
 

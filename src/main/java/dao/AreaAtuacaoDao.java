@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.AreaAtuacao;
@@ -20,11 +21,20 @@ public class AreaAtuacaoDao {
         String sql = "INSERT INTO area_atuacao (nome_area) VALUES (?)";
 
         try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, area.getNomeArea());
 
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() == 0) {
+                return false;
+            }
+
+            try (ResultSet chaves = stmt.getGeneratedKeys()) {
+                if (chaves.next()) {
+                    area.setIdAreaAtuacao(chaves.getInt(1));
+                }
+            }
 
             return true;
 
@@ -64,6 +74,27 @@ public class AreaAtuacaoDao {
         return null;
     }
 
+    public AreaAtuacao buscarPorNome(String nomeArea) {
+        String sql = "SELECT * FROM area_atuacao WHERE nome_area = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nomeArea);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return criarArea(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar área de atuação: "
+                    + e.getMessage());
+        }
+
+        return null;
+    }
+
 
     // ==========================================
     // LISTAR
@@ -73,7 +104,7 @@ public class AreaAtuacaoDao {
 
         ArrayList<AreaAtuacao> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM area_atuacao";
+        String sql = "SELECT * FROM area_atuacao ORDER BY nome_area";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -141,6 +172,28 @@ public class AreaAtuacaoDao {
             System.out.println("Erro ao excluir área de atuação: "
                     + e.getMessage());
             return false;
+        }
+    }
+
+    public boolean estaEmUso(int id) {
+        String sql = "SELECT ("
+                + "(SELECT COUNT(*) FROM Especializacao_em "
+                + "WHERE id_area_atuacao = ?) + "
+                + "(SELECT COUNT(*) FROM interesse_em "
+                + "WHERE id_area_atuacao = ?)) AS total";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.setInt(2, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt("total") > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar uso da área: "
+                    + e.getMessage());
+            return true;
         }
     }
 

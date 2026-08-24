@@ -124,6 +124,70 @@ public class AdminDao {
         return null;
     }
 
+    // Buscar pelo e-mail
+    public Admin buscarPorEmail(String email) {
+        String sql = "SELECT id_admin, nome, email, senha, "
+                + "status, nivel_acesso FROM admin WHERE email = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return criarAdmin(rs);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Erro ao buscar administrador: " + email, e);
+        }
+
+        return null;
+    }
+
+    // Login
+    public Admin login(String email, String senha) {
+        String sql = "SELECT id_admin, nome, email, senha, "
+                + "status, nivel_acesso FROM admin "
+                + "WHERE email = ? AND senha = ? AND status = 'Ativo'";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return criarAdmin(rs);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erro no login do administrador", e);
+        }
+
+        return null;
+    }
+
+    public boolean emailExiste(String email) {
+        String sql = "SELECT 1 FROM admin WHERE email = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Erro ao verificar e-mail do administrador", e);
+            return false;
+        }
+    }
+
     // Atualizar
     public boolean atualizar(Admin admin) {
 
@@ -180,5 +244,48 @@ public class AdminDao {
 
             return false;
         }
+    }
+
+    public boolean alterarStatus(int idAdmin, String status) {
+        String sql = "UPDATE admin SET status = ? WHERE id_admin = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+            stmt.setInt(2, idAdmin);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Erro ao alterar status do administrador: " + idAdmin,
+                    e);
+            return false;
+        }
+    }
+
+    public int contarPorNivel(String nivelAcesso) {
+        String sql = "SELECT COUNT(*) total FROM admin "
+                + "WHERE UPPER(nivel_acesso) = UPPER(?)";
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nivelAcesso);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getInt("total") : 0;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao contar administradores", e);
+            return 0;
+        }
+    }
+
+    private Admin criarAdmin(ResultSet rs) throws SQLException {
+        Admin admin = new Admin();
+        admin.setIdAdmin(rs.getInt("id_admin"));
+        admin.setNome(rs.getString("nome"));
+        admin.setEmail(rs.getString("email"));
+        admin.setSenha(rs.getString("senha"));
+        admin.setStatus(rs.getString("status"));
+        admin.setNivelAcesso(rs.getString("nivel_acesso"));
+        return admin;
     }
 }

@@ -4,6 +4,7 @@ public class InteresseEm {
 
     private int idAreaAtuacao;
     private String cpfMentorado;
+    private String areaInteresse;
     private String nivelExperiencia;
 
     public InteresseEm() {
@@ -23,6 +24,14 @@ public class InteresseEm {
 
     public void setCpfMentorado(String cpfMentorado) {
         this.cpfMentorado = cpfMentorado;
+    }
+
+    public String getAreaInteresse() {
+        return areaInteresse;
+    }
+
+    public void setAreaInteresse(String areaInteresse) {
+        this.areaInteresse = areaInteresse;
     }
 
     public String getNivelExperiencia() {
